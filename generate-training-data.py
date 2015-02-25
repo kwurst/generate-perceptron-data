@@ -22,28 +22,28 @@
 # by G. Forrest Cook and released under the GPLv3 license.
 # See fonttable.py for bitmaps.
 # 
-# A random number of characters A-Z, and space are generated,
+# A random number of characters are generated,
 # and each letter has 0-2 random bits flipped to introduce errors.
 
 import random
 from fonttable import fonttable
 from characterbitmaps import *
 
-fin = open('recognition.txt', 'r')
-fout=open('recognition.dat', 'w')
+numChars = 10000
 
-text = fin.read()
-linecount = 0
-for char in text:
-    if ord(char) not in range(32, 127):
-        char = ' '
+def getRandomCharASCII():
+    return random.randint(32,126)
+
+f=open('training.dat', 'w')
+for i in range(numChars):
+    asciiVal = getRandomCharASCII()
     
-    bitPattern = getBitPattern(ord(char))
+    bitPattern = getBitPattern(asciiVal)
     bitPattern = introduceErrors(bitPattern)
-    
+    bitPattern.append(chr(asciiVal))
+
     bitString = ''.join(bitPattern)
 
-    fout.write(bitString + str(linecount) + '\n')
-    linecount = linecount + 1
-
-fout.close()
+    f.write(bitString+'\n')
+    
+f.close()

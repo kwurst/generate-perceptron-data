@@ -15,15 +15,12 @@
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
 ####################################################################
-# Generate random character training data for a perceptron
+# Functions to generate character bitmaps
 #
 # The characters are 5x7 (5 bits wide, 7 bits high)
 # turned sideways (90 degrees clockwise) from bitmaps posted
 # by G. Forrest Cook and released under the GPLv3 license.
 # See fonttable.py for bitmaps.
-# 
-# A random number of characters A-Z, and space are generated,
-# and each letter has 0-2 random bits flipped to introduce errors.
 
 import random
 from fonttable import fonttable
@@ -32,7 +29,6 @@ zero = '0'
 one = '1'
 minErrors = 0
 maxErrors = 2
-numChars = 1000
 
 def flipBit(bitPattern, position):
     if bitPattern[position] == zero:
@@ -66,13 +62,6 @@ def getBitPattern(asciiVal):
 
     return bitPattern
 
-def getRandomCharAZSpace():
-    which = random.randint(0,26)
-    if which == 0:
-        return 32
-    else: 
-        return which + 64
-
 def printSideways(bitPattern):
     print(bitPattern[-1])
     print(bitPattern[0:7])
@@ -80,19 +69,3 @@ def printSideways(bitPattern):
     print(bitPattern[14:21])
     print(bitPattern[21:28])
     print(bitPattern[28:35])
-
-# Main program starts here
-
-f=open('training.dat', 'w')
-for i in range(numChars):
-    asciiVal = getRandomCharAZSpace()
-    
-    bitPattern = getBitPattern(asciiVal)
-    bitPattern = introduceErrors(bitPattern)
-    bitPattern.append(chr(asciiVal))
-
-    bitString = ''.join(bitPattern)
-
-    f.write(bitString+'\n')
-    
-f.close()
