@@ -22,14 +22,15 @@
 # by G. Forrest Cook and released under the GPLv3 license.
 # See fonttable.py for bitmaps.
 # 
-# A random number of characters A-Z, and space are generated,
-# and each letter has 0-2 random bits flipped to introduce errors.
+# A text file is read, each character converted to the bitmap,
+# and each character has 0-2 random bits flipped to introduce errors.
 
 import random
 from fonttable import fonttable
 from characterbitmaps import *
+import codecs
 
-fin = open('recognition.txt', 'r')
+fin = codecs.open('recognition.txt', 'r', 'utf-8')
 fout=open('recognition.dat', 'w')
 
 text = fin.read()
